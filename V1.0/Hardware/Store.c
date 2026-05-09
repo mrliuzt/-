@@ -1,58 +1,45 @@
 #include "stm32f10x.h"                  // Device header
 #include "MyFlash.h"
-//¶ÁĞ´FlashµÄ×îºóÒ»Ò³
 
 
-//Êı×éµÄµÚÒ»Î»ÊÇ±êÖ¾Î»£¬²»ÄÜÈ¥¸ü¸Ä
-uint16_t Store_Data[512];//ÕıºÃ¶ÔÓ¦Ò»Ò³1024×Ö½Ú
+uint16_t Store_Data[512];//å­˜å‚¨å¯¹åº”ä¸€é¡µ1024å­—èŠ‚
 
-//Flash×îºóÒ»Ò³³õÊ¼»¯
-//µÚÒ»¸ö°ë×ÖÎª0xA5A5,ÆäËû¶¼Îª0
 void Store_Init(void)
 {
 	if(MyFLASH_ReadHalfWord(0x0800FC00) != 0xA5A5)
 	{
 		MyFLASH_ErasePage(0x800FC00);
-		MyFLASH_ProgramHalfWord(0x800FC00,0xA5A5);//ÖÃ±êÖ¾Î»
-		//i´Ó1¿ªÊ¼£¬·ÀÖ¹±êÖ¾Î»ÇåÁã
+		MyFLASH_ProgramHalfWord(0x800FC00,0xA5A5);
 		for(uint16_t i = 1;i < 512; i++)
 		{
-			MyFLASH_ProgramHalfWord(0x800FC00 + i*2,0x0000);//Ò»¸ö°ë×ÖÕ¼ÓÃ2¸öµØÖ·£¬Ò»¸öµØÖ·ÊÇ8Î»
+			MyFLASH_ProgramHalfWord(0x800FC00 + i*2,0x0000);
 		}
+		// è®¾ç½®é»˜è®¤å¯†ç ä¸º 123456
+		Store_Data[1] = 123456 % 65535;        // ä½16ä½
+		Store_Data[2] = 123456 / 65535;        // é«˜16ä½
+		Store_Save();
 	}
 	
-	//ÉÏµçµÄÊ±ºò×ª´æµ½SRAMÊı×éÀï(ÊµÏÖµôµç²»¶ªÊ§£©
 	for(uint16_t i = 0;i < 512; i++)
 	{
 		Store_Data[i] = MyFLASH_ReadHalfWord(0x800FC00 + i*2);
 	}
-	
-	
 }
 
-//±£´æÊı¾İ
-//Ã¿´Î¸ü¸ÄÊı¾İºó¶¼Òª±£´æÒ»ÏÂ
 void Store_Save(void)
 {
 	MyFLASH_ErasePage(0x800FC00);
 	for(uint16_t i = 0;i < 512; i++)
 	{
-		MyFLASH_ProgramHalfWord(0x800FC00 + i*2,Store_Data[i]);//±¸·İÊı×éÀïµÄÊı¾İµ½FLASH
+		MyFLASH_ProgramHalfWord(0x800FC00 + i*2,Store_Data[i]);
 	}
 }
-//Êı¾İÇåÁã
+
 void Store_Clear(void)
 {
-	//i´Ó1¿ªÊ¼£¬·ÀÖ¹±êÖ¾Î»ÇåÁã
 	for(uint16_t i = 1;i < 512; i++)
 	{
 		Store_Data[i] = 0x0000;
 	}
 	Store_Save();
 }
-
-
-
-
-
-
