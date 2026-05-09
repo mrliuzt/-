@@ -17,8 +17,8 @@ void Store_Init(void)
 			MyFLASH_ProgramHalfWord(0x800FC00 + i*2,0x0000);
 		}
 		// 第一次设置默认密码为 123456
-		Store_Data[1] = 123456 & 0xFFFF;        // 低16位
-		Store_Data[2] = 123456 >> 16;            // 高16位
+		Store_Data[1] = 123456 % 65535;
+		Store_Data[2] = 123456 / 65535;
 		Store_Save();
 	}
 
@@ -31,8 +31,8 @@ void Store_Init(void)
 	// 如果密码为0，设置默认密码为123456
 	if(Store_Data[1] == 0 && Store_Data[2] == 0)
 	{
-		Store_Data[1] = 123456 & 0xFFFF;        // 低16位
-		Store_Data[2] = 123456 >> 16;            // 高16位
+		Store_Data[1] = 123456 % 65535;
+		Store_Data[2] = 123456 / 65535;
 		Store_Save();
 	}
 }

@@ -7,40 +7,18 @@ extern uint8_t per;
 
 void password_make(uint8_t num)
 {
-	
-	if(per<9)
-	{
-		password = (num*pow(10,(8-per))) + password;//ÏÔÊ¾´Ó×óµ½ÓÒ
-	}
+    if(per < 9)
+    {
+        password = password * 10 + num;  // æ­£ç¡®çš„æ‹¼æ¥æ–¹å¼
+    }
 }
 
 void password_del(void)
 {
-		password = password-(int)password%(int)(pow(10,(10-per)));
-	
+    password = password / 10;  // åˆ é™¤æœ€åä¸€ä½
 }
 
 void password_clear(void)
 {
-		password = 0;
+    password = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
