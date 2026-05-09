@@ -1,0 +1,33 @@
+# Keil Build Output
+*.axf
+*.hex
+*.elf
+*.d
+*.o
+*.lst
+*.map
+*.lnp
+*.obj
+*.dep
+*.htm
+*.build
+*.crkt
+
+# Simulation
+*.opt
+*.uvoptx
+*.uvprojx
+*.uvguix
+*.pack
+
+# Debug
+*.ini
+*.dbgconf
+Listings/
+Objects/
+Listing/
+Output/
+
+# STM32
+*.srec
+*.bin
