@@ -12,41 +12,41 @@
 #include "Bee.h"
 #include "Store.h"
 
-uint8_t wire_as = 0xFF;//Â¼ÈëÖ¸ÎÆ±êÖ¾Î»
-uint8_t wire_ic = 0xFF;//Â¼Èë¿¨ºÅ±êÖ¾Î»
-uint8_t root = 0xFF,ASGO = 0xFF;//¹ÜÀíÔ±½øÈë±êÖ¾Î»
-uint8_t amend = 0xFF,again = 0xFF;//ĞŞ¸ÄÃÜÂë¹¦ÄÜ±êÖ¾Î»
-uint8_t hid = 0xFF;//Òş²Ø±êÖ¾Î»
-uint8_t ok = 0xFF;//½âËø±êÖ¾Î»
-uint8_t sos = 0xFF; // ±¨¾¯±êÖ¾Î»
+uint8_t wire_as = 0xFF;//Â¼ï¿½ï¿½Ö¸ï¿½Æ±ï¿½Ö¾Î»
+uint8_t wire_ic = 0xFF;//Â¼ï¿½ë¿¨ï¿½Å±ï¿½Ö¾Î»
+uint8_t root = 0xFF,ASGO = 0xFF;//ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Î»
+uint8_t amend = 0xFF,again = 0xFF;//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ë¹¦ï¿½Ü±ï¿½Ö¾Î»
+uint8_t hid = 0xFF;//ï¿½ï¿½ï¿½Ø±ï¿½Ö¾Î»
+uint8_t ok = 0xFF;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Î»
+uint8_t sos = 0xFF; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Î»
 
-uint8_t fail_count = 0;//×ÔËø±êÖ¾Î»
+uint8_t fail_count = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Î»
 uint8_t per = 0;//Î»
 
 extern uint32_t password;
 extern uint8_t matrix_num;
-extern uint8_t row;//ĞĞ
+extern uint8_t row;//ï¿½ï¿½
 extern uint8_t card_numberbuf0[5];
-uint32_t password_key;//³õÊ¼ÃÜÂë
+uint32_t password_key;//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 
-uint8_t time_count = 15;//ËøÆÁ¼ÆÊı
+uint8_t time_count = 15;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-//¹©Íâ²¿µ÷ÓÃĞŞ¸ÄËøÆÁ¼ÆÊ±
+//ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
 void wire_time_count(uint8_t count)
 {
 	time_count = count;
 }
-//¹©Íâ²¿µ÷ÓÃ´íÎó¼ÆÊı
+//ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void add_fail_count(void)
 {
 	fail_count++;
 }
 
-//À¶ÑÀÄ£¿é³õÊ¼»¯&Êı¾İ´¦Àí
+//ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½&ï¿½ï¿½ï¿½İ´ï¿½ï¿½ï¿½
 void HC_XR(void)
 {
 	Serial_Init();
-	//À¶ÑÀÇ£ÊÖ
+	//ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½
 		if(Get_Serial_RxFlag())
 		{
 			switch(checkPack)
@@ -184,7 +184,7 @@ void HC_XR(void)
 					if(per!=0)
 					per = 0;
 				break;
-				//amend//ĞŞ¸ÄÃÜÂë
+				//amend//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½
 				case 40:
 					time_count = 15;
 					matrix_num = 30;
@@ -193,7 +193,7 @@ void HC_XR(void)
 					per = 0;
 					amend = 1;
 				break;
-				//Back//Òş²Ø
+				//Back//ï¿½ï¿½ï¿½ï¿½
 				case 50:
 					matrix_num = 40;
 					Delay_ms(400);
@@ -233,7 +233,7 @@ void HC_XR(void)
 			}
 		}
 }
-//ËøÆÁ½çÃæ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void View_Init(void)
 {
 		Matrix_Init();
@@ -242,16 +242,16 @@ void View_Init(void)
 		OLED_Clear();
 	while(matrix_num == 0xFE)
 	{
-		password_key = Store_Data[1]+ Store_Data[2]*65535;//´ÓÄÚ²¿flash»ñÈ¡ÃÜÂë£¬ÊµÏÖµôµç²»¶ªÊ§
-		Add_Init();//´ÓÄÚ²¿flash»ñÈ¡¿¨ºÅ£¬ÊµÏÖµôµç²»¶ªÊ§
+		password_key = Store_Data[1]+ Store_Data[2]*65535;//ï¿½ï¿½ï¿½Ú²ï¿½flashï¿½ï¿½È¡ï¿½ï¿½ï¿½ë£¬Êµï¿½Öµï¿½ï¿½ç²»ï¿½ï¿½Ê§
+		Add_Init();//ï¿½ï¿½ï¿½Ú²ï¿½flashï¿½ï¿½È¡ï¿½ï¿½ï¿½Å£ï¿½Êµï¿½Öµï¿½ï¿½ç²»ï¿½ï¿½Ê§
 		Bee_Init();
-		kaisuo_OFF();//ËøÍ·¹Ø±Õ£¬·ÀÖ¹Îó¿ª
+		kaisuo_OFF();//ï¿½ï¿½Í·ï¿½Ø±Õ£ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½
 		TIM_Cmd(TIM2,DISABLE);
 		time_count = 15;
 		password_clear();
 		per = 0;
-		HC_XR();//À¶ÑÀÇ£ÊÖ
-		Matrix_row();//¿ªÆô¾ØÕó¼üÅÌĞĞÉ¨Ãè
+		HC_XR();//ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½
+		Matrix_row();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½
 		MyRTC_ReadTime();
 		OLED_ShowString(34,11,"    -  -  ",OLED_6X8);
 		OLED_ShowString(40,25,"  :  :  ",OLED_6X8);
@@ -264,19 +264,19 @@ void View_Init(void)
 		OLED_ShowNum(40+6*3+6*3,25, MyRTC_Time[5],2,OLED_6X8);
 		switch(MyRTC_Time[6])
 		{
-			case 0:	OLED_ShowChinese(40,40,"ĞÇÆÚÈÕ");break;
-			case 1:	OLED_ShowChinese(40,40,"ĞÇÆÚÒ»");break;
-			case 2: OLED_ShowChinese(40,40,"ĞÇÆÚ¶ş");break;
-			case 3: OLED_ShowChinese(40,40,"ĞÇÆÚÈı");break;
-			case 4: OLED_ShowChinese(40,40,"ĞÇÆÚËÄ");break;
-			case 5: OLED_ShowChinese(40,40,"ĞÇÆÚÎå");break;
-			case 6: OLED_ShowChinese(40,40,"ĞÇÆÚÁù");break;
-			default:OLED_ShowChinese(40,40,"ĞÇÆÚÁù");break;
+			case 0:	OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");break;
+			case 1:	OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½ï¿½Ò»");break;
+			case 2: OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½Ú¶ï¿½");break;
+			case 3: OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");break;
+			case 4: OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");break;
+			case 5: OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");break;
+			case 6: OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");break;
+			default:OLED_ShowChinese(40,40,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");break;
 		}
 		OLED_Update();
 	}
 }
-//Ö÷Ò³Ãæ
+//ï¿½ï¿½Ò³ï¿½ï¿½
 void View_First(void)
 {
 	OLED_Init();
@@ -288,7 +288,7 @@ void View_First(void)
 	{
 		
 		TIM_Cmd(TIM2,ENABLE);
-		//À¶ÑÀÇ£ÊÖ
+		//ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½
 		if(Get_Serial_RxFlag())
 		{
 			switch(checkPack)
@@ -421,7 +421,7 @@ void View_First(void)
 					if(per!=0)
 					per = 0;
 				break;
-				//amend//ĞŞ¸ÄÃÜÂë
+				//amend//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½
 //				case 40:
 //					time_count = 15;
 //					matrix_num = 30;
@@ -433,7 +433,7 @@ void View_First(void)
 //						amend = 1;
 //					}
 //				break;
-				//Back//Òş²Ø
+				//Back//ï¿½ï¿½ï¿½ï¿½
 				case 50:
 					time_count = 15;
 					matrix_num = 40;
@@ -479,13 +479,13 @@ void View_First(void)
 				
 			}
 		}
-	//ÓÃ»§Ä£Ê½-------------------------
+	//ï¿½Ã»ï¿½Ä£Ê½-------------------------
 		if(root == 0xFF)
 		{
 			ASGO = 0xFF;
-			Matrix_row();//¿ªÆô¾ØÕó¼üÅÌĞĞÉ¨Ãè
-			MyRTC_ReadTime();//»ñÈ¡Ê±ÖÓ
-			//Ê±ÖÓÏÔÊ¾
+			Matrix_row();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½
+			MyRTC_ReadTime();//ï¿½ï¿½È¡Ê±ï¿½ï¿½
+			//Ê±ï¿½ï¿½ï¿½ï¿½Ê¾
 			OLED_ShowString(5,5,"    -  -  ",OLED_6X8);
 			OLED_ShowString(80,5,"  :  :  ",OLED_6X8);
 			OLED_ShowNum(5,5, MyRTC_Time[0],4,OLED_6X8);
@@ -494,7 +494,7 @@ void View_First(void)
 			OLED_ShowNum(80,5, MyRTC_Time[3],2,OLED_6X8);
 			OLED_ShowNum(80+6*3,5, MyRTC_Time[4],2,OLED_6X8);
 			OLED_ShowNum(80+6*3+6*3,5, MyRTC_Time[5],2,OLED_6X8);
-			//ÃÜÂëÏÔÊ¾
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 			OLED_DrawRectangle( 21, 21, 85, 20, OLED_UNFILLED);
 			OLED_ShowNum(28, 23, password, 9, OLED_8X16);
 			if(hid == 0xFF)
@@ -522,7 +522,7 @@ void View_First(void)
 			}
 			else if(matrix_num == 50)
 			{
-				OLED_ShowChinese(33, 47,"ÕıÔÚ½âËø");
+				OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½");
 				OLED_Update();
 				Delay_s(1);
 				
@@ -540,7 +540,7 @@ void View_First(void)
 					{
 						Bee_Init();
 						OLED_ClearArea(18, 47, 120, 16);
-						OLED_ShowChinese(33, 47,"½âËø³É¹¦");
+						OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
 						fail_count = 0;
 						OLED_Update();
 						kaisuo_ON();
@@ -552,7 +552,7 @@ void View_First(void)
 				else if(ok==0)
 				{
 					OLED_ClearArea(18, 47, 120, 16);
-					OLED_ShowChinese(33, 47,"½âËøÊ§°Ü");
+					OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½");
 					matrix_num = 0xFF;
 					ok = 0xFF;
 					per = 0;
@@ -562,13 +562,13 @@ void View_First(void)
 					fail_count++;
 				}
 			}
-			//ic ¿¨
+			//ic ï¿½ï¿½
 			if(RC522_lock()==1)
 			{
 				time_count = 15;
 				matrix_num = 0xFF;
 				OLED_ClearArea(18, 47, 120, 16);
-				OLED_ShowChinese(33, 47,"ÕıÔÚ½âËø");
+				OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½");
 				OLED_Update();
 				Delay_s(1);
 				OLED_ClearArea(18, 47, 120, 16);
@@ -579,7 +579,7 @@ void View_First(void)
 				{
 					Bee_Init();
 					OLED_ClearArea(18, 47, 120, 16);
-					OLED_ShowChinese(33, 47,"½âËø³É¹¦");
+					OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
 					OLED_Update();
 					kaisuo_ON();
 					Delay_s(3);
@@ -593,7 +593,7 @@ void View_First(void)
 				}	
 			}
 			
-			//½çÃæ×ÔËø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(fail_count==10)
 			{
 				sos = 1;
@@ -606,10 +606,10 @@ void View_First(void)
 					Delay_ms(250);
 					Bee_OFF();
 					Delay_ms(250);
-					OLED_ShowChinese(15, 5,"¾¯¸æ¾¯¸æ");
+					OLED_ShowChinese(15, 5,"ï¿½ï¿½ï¿½æ¾¯ï¿½ï¿½");
 					//Serial_printf("SOS SOS 110");
                     OLED_Update();
-					//À¶ÑÀÇ£ÊÖ
+					//ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½
 					if(Get_Serial_RxFlag())
 					{
 						switch(checkPack)
@@ -629,17 +629,17 @@ void View_First(void)
 					
 				}
 			}
-			 else if(fail_count==7)//´íÎó´ÎÊı6´Î
+			 else if(fail_count==7)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½6ï¿½ï¿½
 			{
-				fail_count = 3;//ÉèÖÃ¼¸Ãëºó½âËø
+				fail_count = 3;//ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				while(fail_count--)
 				{
 					time_count = 15;
 					Delay_ms(1000);
 					OLED_Clear();
-					OLED_ShowChinese(15, 5,"»¹Ê£ÏÂÁ½´Î»ú»á");
+					OLED_ShowChinese(15, 5,"ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½");
 					OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-					OLED_ShowChinese(45,25,"ÃëºóÖØÊÔ");
+					OLED_ShowChinese(45,25,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 					OLED_Update();
 				}
 				OLED_Clear();
@@ -647,17 +647,17 @@ void View_First(void)
 				fail_count = 8;
 				matrix_num = 0xFF;
 			}
-			else if(fail_count ==2)//´íÎó´ÎÊı2´Î
+			else if(fail_count ==2)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½
 			{
-				fail_count = 2;//ÉèÖÃ¼¸Ãëºó½âËø
+				fail_count = 2;//ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				while(fail_count--)
 				{
 					time_count = 15;
 					Delay_ms(1000);
 					OLED_Clear();
-					OLED_ShowChinese(15, 5,"»¹Ê£ÏÂÁù´Î»ú»á");
+					OLED_ShowChinese(15, 5,"ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½");
 					OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-					OLED_ShowChinese(45,25,"ÃëºóÖØÊÔ");
+					OLED_ShowChinese(45,25,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 					OLED_Update();
 				}
 				OLED_Clear();
@@ -669,12 +669,28 @@ void View_First(void)
 		
 		
 //rootÄ£Ê½-----------------------------
-		
+
 		if(root == 1)
 		{
 			TIM_Cmd(TIM2,DISABLE);
 			time_count = 15;
-			//Ö¸ÎÆ½âËø
+
+			// æ£€æŸ¥æŒ‡çº¹åº“æ˜¯å¦ä¸ºç©ºï¼Œå¦‚æœä¸ºç©ºåˆ™è·³è¿‡æŒ‡çº¹éªŒè¯
+			u16 ValidN = 0;
+			usart1_Init();
+			PS_ValidTempleteNum(&ValidN);
+
+			// å¦‚æœæ²¡æœ‰å½•å…¥æŒ‡çº¹ï¼Œæ˜¾ç¤ºæç¤ºå¹¶è·³è¿‡éªŒè¯
+			if(ValidN == 0)
+			{
+				OLED_ShowChinese(15, 5,"æ— æŒ‡çº¹å½•å…¥");
+				OLED_ShowChinese(15, 25,"ç›´æ¥è¿›å…¥ç®¡ç†");
+				OLED_Update();
+				Delay_s(1);
+				ASGO = 0;  // è·³è¿‡æŒ‡çº¹éªŒè¯
+			}
+
+			//Ö¸ï¿½Æ½ï¿½ï¿½ï¿½
 			while(ASGO == 0xFF)
 			{
 				if(Get_Serial_RxFlag())
@@ -691,14 +707,14 @@ void View_First(void)
 						break;
 					}
 				}
-				OLED_ShowChinese(15,5,"ÕıÔÚ¼ì²âÖ¸ÎÆ ");
-				OLED_Update();//¸üĞÂÏÔÊ¾	
+				OLED_ShowChinese(15,5,"ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½Ö¸ï¿½ï¿½ ");
+				OLED_Update();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾	
 					if(press_FR() == 1)
 					{
 						time_count = 15;
 						matrix_num = 0xFF;
 						OLED_ClearArea(30, 47, 120, 16);
-						OLED_ShowChinese(33, 47,"ÕıÔÚ½âËø");
+						OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½");
 						OLED_Update();
 						Delay_s(1);
 						OLED_ClearArea(30, 47, 120, 16);
@@ -706,7 +722,7 @@ void View_First(void)
 						OLED_Update();
 							Bee_Init();
 							OLED_ClearArea(30, 47, 120, 16);
-							OLED_ShowChinese(33, 47,"½âËø³É¹¦");
+							OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
 							fail_count = 0;
 							OLED_Update();
 							matrix_num = 0xFF;
@@ -716,7 +732,7 @@ void View_First(void)
 							ASGO = 0;
 							OLED_Clear();
 					}
-					//½çÃæ×ÔËø
+					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					if(fail_count==8)
 					{
 						sos = 1;
@@ -729,21 +745,21 @@ void View_First(void)
 							Delay_ms(250);
 							Bee_OFF();
 							Delay_ms(250);
-							OLED_ShowChinese(15, 5,"¾¯¸æ¾¯¸æ");
+							OLED_ShowChinese(15, 5,"ï¿½ï¿½ï¿½æ¾¯ï¿½ï¿½");
 							Serial_printf("SOS SOS 110");
 						}
 					}
 					 else if(fail_count==6)
 					{
-						fail_count = 30;//ÉèÖÃ¼¸Ãëºó½âËø
+						fail_count = 30;//ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						while(fail_count--)
 						{
 							time_count = 15;
 							Delay_ms(1000);
 							OLED_Clear();
-							OLED_ShowChinese(15, 5,"»¹Ê£ÏÂÒ»´Î»ú»á");
+							OLED_ShowChinese(15, 5,"ï¿½ï¿½Ê£ï¿½ï¿½Ò»ï¿½Î»ï¿½ï¿½ï¿½");
 							OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-							OLED_ShowChinese(45,25,"ÃëºóÖØÊÔ");
+							OLED_ShowChinese(45,25,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 							OLED_Update();
 						}
 						OLED_Clear();
@@ -753,15 +769,15 @@ void View_First(void)
 					}
 					else if(fail_count ==2)
 					{
-						fail_count = 10;//ÉèÖÃ¼¸Ãëºó½âËø
+						fail_count = 10;//ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						while(fail_count--)
 						{
 							time_count = 15;
 							Delay_ms(1000);
 							OLED_Clear();
-							OLED_ShowChinese(15, 5,"»¹Ê£ÏÂÈı´Î»ú»á");
+							OLED_ShowChinese(15, 5,"ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½");
 							OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-							OLED_ShowChinese(45,25,"ÃëºóÖØÊÔ");
+							OLED_ShowChinese(45,25,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 							OLED_Update();
 						}
 						OLED_Clear();
@@ -771,15 +787,15 @@ void View_First(void)
 					}
 				}
 			
-			//Ò³ÃæÏÔÊ¾Óë³õÊ¼»¯
-			Matrix_row();//¿ªÆô¾ØÕó¼üÅÌĞĞÉ¨Ãè
-			MyRTC_ReadTime();//»ñÈ¡Ê±ÖÓ
-			OLED_ShowChinese(35, 5,"Ò»¼ü½âËø");
-			OLED_ShowChinese(35, 25,"Â¼ÈëÖ¸ÎÆ");
-			OLED_ShowChinese(35, 45,"¸ü¸Ä¿¨ºÅ");
+			//Ò³ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+			Matrix_row();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½
+			MyRTC_ReadTime();//ï¿½ï¿½È¡Ê±ï¿½ï¿½
+			OLED_ShowChinese(35, 5,"Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+			OLED_ShowChinese(35, 25,"Â¼ï¿½ï¿½Ö¸ï¿½ï¿½");
+			OLED_ShowChinese(35, 45,"ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½");
 			OLED_DrawRectangle(5, 3, 120, 60, OLED_UNFILLED);
 			OLED_Update();
-		//À¶ÑÀÇ£ÊÖ----------------------------------
+		//ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½----------------------------------
 					if(Get_Serial_RxFlag())
 					{
 						switch(checkPack)
@@ -793,7 +809,7 @@ void View_First(void)
 								OLED_Clear();
 								
 							break;
-							//Â¼ÈëÖ¸ÎÆ
+							//Â¼ï¿½ï¿½Ö¸ï¿½ï¿½
 							case 20:
 								OLED_ReverseArea(35, 25,4*16, 16);
 								OLED_Update();
@@ -803,7 +819,7 @@ void View_First(void)
 								wire_as = 1;
 								
 							break;
-							//¸ü¸Ä¿¨ºÅ
+							//ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½
 							case 30:
 								OLED_ReverseArea(35, 45,4*16, 16);
 								OLED_Update();
@@ -812,7 +828,7 @@ void View_First(void)
 								OLED_Update();
 								wire_ic = 1;
 							break;
-							//Ò»¼ü½âËø
+							//Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							case 60:
 								OLED_ReverseArea(35, 5,4*16, 16);
 								OLED_Update();
@@ -824,7 +840,7 @@ void View_First(void)
 								Delay_s(3);
 								kaisuo_OFF();
 							break;
-							//amend//ĞŞ¸ÄÃÜÂë
+							//amend//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½
 							case 40:
 								time_count = 15;
 								matrix_num = 30;
@@ -841,7 +857,7 @@ void View_First(void)
 					}
             if(amend != 1)
             {
-            //Â¼ÈëÖ¸ÎÆ
+            //Â¼ï¿½ï¿½Ö¸ï¿½ï¿½
                 while(wire_as == 1)
                 {
                      Add_FR();
@@ -849,20 +865,20 @@ void View_First(void)
         
             
             
-            //Â¼Èë¿¨ºÅ
+            //Â¼ï¿½ë¿¨ï¿½ï¿½
                 while(wire_ic == 1)
                 {
                     Add_Rfid();
                 }
             }	
-			//ĞŞ¸ÄÃÜÂë
+			//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(amend == 1)
 			{
 				OLED_Clear();
 				
 					while(1)
 					{
-							//À¶ÑÀÇ£ÊÖ
+							//ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½
 						if(Get_Serial_RxFlag())
 						{
 							switch(checkPack)
@@ -996,7 +1012,7 @@ void View_First(void)
 									if(per!=0)
 									per = 0;
 								break;
-								//Back//Òş²Ø
+								//Back//ï¿½ï¿½ï¿½ï¿½
 								case 50:
 									time_count = 15;
 									matrix_num = 40;
@@ -1019,8 +1035,8 @@ void View_First(void)
 							}
 						}
 						
-						Matrix_row();//¿ªÆô¾ØÕó¼üÅÌĞĞÉ¨Ãè
-						MyRTC_ReadTime();//»ñÈ¡Ê±ÖÓ
+						Matrix_row();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½
+						MyRTC_ReadTime();//ï¿½ï¿½È¡Ê±ï¿½ï¿½
 						OLED_ShowString(5,5,"    -  -  ",OLED_6X8);
 						OLED_ShowString(80,5,"  :  :  ",OLED_6X8);
 						OLED_ShowNum(5,5, MyRTC_Time[0],4,OLED_6X8);
@@ -1033,19 +1049,19 @@ void View_First(void)
 						OLED_ShowNum(28, 23, password, 9, OLED_8X16);
 						OLED_ClearArea(28+per*8, 23, 8*(9-per), 16);
 						OLED_ClearArea(30, 47, 120, 16);
-						OLED_ShowChinese(20, 47,"È·ÈÏ");
-						OLED_ShowChinese(72, 47,"ÍË³ö");
+						OLED_ShowChinese(20, 47,"È·ï¿½ï¿½");
+						OLED_ShowChinese(72, 47,"ï¿½Ë³ï¿½");
 						OLED_Update();
 						if(matrix_num == 50)
 						{
-							OLED_ShowChinese(20, 47,"È·ÈÏ");
-							OLED_ShowChinese(72, 47,"ÍË³ö");
+							OLED_ShowChinese(20, 47,"È·ï¿½ï¿½");
+							OLED_ShowChinese(72, 47,"ï¿½Ë³ï¿½");
 							OLED_ReverseArea(20, 47,16*2,16);
 							OLED_Update();
 							Delay_ms(250);
-							password_key = password;//ÉèÖÃÃÜÂë
+							password_key = password;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							OLED_ClearArea(20, 47, 120, 16);
-							OLED_ShowChinese(33, 47,"ÉèÖÃ³É¹¦");
+							OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½Ã³É¹ï¿½");
 							matrix_num = 0xFF;
 							amend = 0xFF;
 							password = 0;
@@ -1053,12 +1069,12 @@ void View_First(void)
 							OLED_Update();
 							Delay_s(1);
 							OLED_ClearArea(20, 47, 120, 16);
-							OLED_ShowChinese(33, 47,"ÔÙ´ÎÊäÈë");
+							OLED_ShowChinese(33, 47,"ï¿½Ù´ï¿½ï¿½ï¿½ï¿½ï¿½");
 							OLED_Update();
 							Delay_ms(1000);
 							while(1)
 							{
-									//À¶ÑÀÇ£ÊÖ
+									//ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½
 									if(Get_Serial_RxFlag())
 									{
 										switch(checkPack)
@@ -1191,7 +1207,7 @@ void View_First(void)
 												if(per!=0)
 												per = 0;
 											break;
-											//Back//Òş²Ø
+											//Back//ï¿½ï¿½ï¿½ï¿½
 											case 50:
 												time_count = 15;
 												matrix_num = 40;
@@ -1216,12 +1232,12 @@ void View_First(void)
 									}
 								
 								OLED_ClearArea(30, 47, 120, 16);
-								OLED_ShowChinese(20, 47,"È·ÈÏ");
-								OLED_ShowChinese(72, 47,"ÍË³ö");
+								OLED_ShowChinese(20, 47,"È·ï¿½ï¿½");
+								OLED_ShowChinese(72, 47,"ï¿½Ë³ï¿½");
 								OLED_Update();
 								
-								Matrix_row();//¿ªÆô¾ØÕó¼üÅÌĞĞÉ¨Ãè
-								MyRTC_ReadTime();//»ñÈ¡Ê±ÖÓ
+								Matrix_row();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¨ï¿½ï¿½
+								MyRTC_ReadTime();//ï¿½ï¿½È¡Ê±ï¿½ï¿½
 								OLED_ShowString(5,5,"    -  -  ",OLED_6X8);
 								OLED_ShowString(80,5,"  :  :  ",OLED_6X8);
 								OLED_ShowNum(5,5, MyRTC_Time[0],4,OLED_6X8);
@@ -1234,13 +1250,13 @@ void View_First(void)
 								OLED_ShowNum(28, 23, password, 9, OLED_8X16);
 								OLED_ClearArea(28+per*8, 23, 8*(9-per), 16);
 								OLED_ClearArea(30, 47, 120, 16);
-								OLED_ShowChinese(20, 47,"È·ÈÏ");
-								OLED_ShowChinese(72, 47,"ÍË³ö");
+								OLED_ShowChinese(20, 47,"È·ï¿½ï¿½");
+								OLED_ShowChinese(72, 47,"ï¿½Ë³ï¿½");
 								OLED_Update();
 								if(matrix_num == 50)
 								{
-									OLED_ShowChinese(20, 47,"È·ÈÏ");
-									OLED_ShowChinese(72, 47,"ÍË³ö");
+									OLED_ShowChinese(20, 47,"È·ï¿½ï¿½");
+									OLED_ShowChinese(72, 47,"ï¿½Ë³ï¿½");
 									OLED_ReverseArea(20, 47,16*2,16);
 									OLED_Update();
 									Delay_ms(250);
@@ -1256,10 +1272,10 @@ void View_First(void)
 									else
 									{
 										OLED_ClearArea(30, 47, 120, 16);
-										OLED_ShowChinese(20, 47,"ÃÜÂë²»Ò»ÖÂ");
+										OLED_ShowChinese(20, 47,"ï¿½ï¿½ï¿½ë²»Ò»ï¿½ï¿½");
 										OLED_Update();
 										Delay_s(1);
-										OLED_ShowChinese(20, 47,"ÇëÖØÍ·ÊäÈë");
+										OLED_ShowChinese(20, 47,"ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½");
 										OLED_Update();
 										Delay_s(1);
 										password_key = Store_Data[2];
@@ -1274,8 +1290,8 @@ void View_First(void)
 								if(matrix_num == 40)
 								{
 									OLED_ClearArea(30, 47, 120, 16);
-									OLED_ShowChinese(20, 47,"È·ÈÏ");
-									OLED_ShowChinese(72, 47,"ÍË³ö");
+									OLED_ShowChinese(20, 47,"È·ï¿½ï¿½");
+									OLED_ShowChinese(72, 47,"ï¿½Ë³ï¿½");
 									OLED_ReverseArea(72, 47,16*2,16);
 									matrix_num = 0xFF;
 									password = 0;
@@ -1289,7 +1305,7 @@ void View_First(void)
 							if(again==1)
 							{
 								OLED_ClearArea(20, 47, 120, 16);
-								OLED_ShowChinese(33, 47,"ÉèÖÃ³É¹¦");
+								OLED_ShowChinese(33, 47,"ï¿½ï¿½ï¿½Ã³É¹ï¿½");
 								OLED_Update();
 								Store_Data[2] = password_key/65535;
 								Store_Data[1] = password_key%65535;
@@ -1302,8 +1318,8 @@ void View_First(void)
 						if(matrix_num == 40)
 						{
 							OLED_ClearArea(30, 47, 120, 16);
-							OLED_ShowChinese(20, 47,"È·ÈÏ");
-							OLED_ShowChinese(72, 47,"ÍË³ö");
+							OLED_ShowChinese(20, 47,"È·ï¿½ï¿½");
+							OLED_ShowChinese(72, 47,"ï¿½Ë³ï¿½");
 							OLED_ReverseArea(72, 47,16*2,16);
 							matrix_num = 0xFF;
 							amend = 0xFF;
@@ -1335,7 +1351,7 @@ void View_First(void)
 
 
 
-void EXTI0_IRQHandler(void)//µÚËÄÁĞ
+void EXTI0_IRQHandler(void)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 	if(EXTI_GetITStatus(EXTI_Line0) == SET)
 	{ 
@@ -1384,7 +1400,7 @@ void EXTI0_IRQHandler(void)//µÚËÄÁĞ
 		
 		EXTI_ClearITPendingBit(EXTI_Line0);
 }
-void EXTI1_IRQHandler (void)//µÚÈıÁĞ
+void EXTI1_IRQHandler (void)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 	if(EXTI_GetITStatus(EXTI_Line1) == SET)
 	{ 
@@ -1436,7 +1452,7 @@ void EXTI1_IRQHandler (void)//µÚÈıÁĞ
 					ok = 0;
 				}
 			}
-				//Ò»¼ü½âËø--------------------------------------
+				//Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½--------------------------------------
 				if(root == 1)
 				{
 					if(amend != 1)
@@ -1574,7 +1590,7 @@ void EXTI3_IRQHandler (void)
 
 void TIM2_IRQHandler(void)
 {
-   if(TIM_GetITStatus(TIM2,TIM_IT_Update)==SET)// ¶ÁÈ¡ÊÇ·ñTIM2½øÈëµÄÖĞ¶Ï
+   if(TIM_GetITStatus(TIM2,TIM_IT_Update)==SET)// ï¿½ï¿½È¡ï¿½Ç·ï¿½TIM2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½
    {
 	    time_count--;
 	    if(time_count==0)
@@ -1582,7 +1598,7 @@ void TIM2_IRQHandler(void)
 			time_count = 15;
 			matrix_num = 0xFE;
 		}
-		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);//Ó²¼şÖÃ1.×Ô¼ºÖÃ0
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);//Ó²ï¿½ï¿½ï¿½ï¿½1.ï¿½Ô¼ï¿½ï¿½ï¿½0
    }
 	
 }
