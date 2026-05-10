@@ -683,8 +683,8 @@ void View_First(void)
 			// 如果没有录入指纹，显示提示并跳过验证
 			if(ValidN == 0)
 			{
-				OLED_ShowChinese(15, 5,"无指纹录入");
-				OLED_ShowChinese(15, 25,"直接进入管理");
+				OLED_ShowChinese(15, 5,"请录入指纹");
+				OLED_ShowChinese(15, 25,"确认操作");
 				OLED_Update();
 				Delay_s(1);
 				ASGO = 0;  // 跳过指纹验证
