@@ -103,6 +103,8 @@ void Add_FR(void)
 	OLED_Clear();//«Â∆¡
 	while(1)
 	{
+		Matrix_row();
+		HC_XR();
 		if(Get_Serial_RxFlag())
 		{
 			switch(checkPack)
