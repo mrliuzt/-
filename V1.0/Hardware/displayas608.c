@@ -31,53 +31,38 @@ uint8_t FR_GET_NUM(void)
 				break;
 				//1
 				case 11:
-					
 					FR_num = 1;
-					
-					
 				break;
 				//2
 				case 12:
-					
 					FR_num = 2;
-					
 				break;
 				//3
 				case 13:
 					FR_num = 3;
-				
 				break;
 				//4
 				case 14:
 					FR_num = 4;
-					
 				break;
 				//5
 				case 15:
 					FR_num = 5;
-					
 				break;
 				//6
 				case 16:
-					
 					FR_num = 6;
-					
 				break;
 				//7
 				case 17:
-					
 					FR_num = 7;
-					
 				break;
 				//8
 				case 18:
-					
 					FR_num = 8;
-					
 				break;
 				//9
 				case 19:
-					
 					FR_num = 9;
 				break;
 				//back
@@ -86,6 +71,24 @@ uint8_t FR_GET_NUM(void)
 				break;
 			}
 		}
+
+		//¿∂—¿º√¥√”¥Û
+		extern uint8_t matrix_num;
+		extern uint8_t per;
+		if(matrix_num <= 9 && per > 0)
+		{
+			FR_num = matrix_num;
+			matrix_num = 0xFF;
+			per = 0;
+		}
+		//¿∂—¿DELµ„
+		if(matrix_num == 10)
+		{
+			FR_num = 0xFF;
+			matrix_num = 0xFF;
+			per = 0;
+		}
+
 	uint8_t num;
 	num = FR_num;
 	return num;
