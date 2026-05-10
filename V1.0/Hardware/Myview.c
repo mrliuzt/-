@@ -12,41 +12,41 @@
 #include "Bee.h"
 #include "Store.h"
 
-uint8_t wire_as = 0xFF;//¼��ָ�Ʊ�־λ
-uint8_t wire_ic = 0xFF;//¼�뿨�ű�־λ
-uint8_t root = 0xFF,ASGO = 0xFF;//����Ա�����־λ
-uint8_t amend = 0xFF,again = 0xFF;//�޸����빦�ܱ�־λ
-uint8_t hid = 0xFF;//���ر�־λ
-uint8_t ok = 0xFF;//������־λ
-uint8_t sos = 0xFF; // ������־λ
+uint8_t wire_as = 0xFF;//????????��
+uint8_t wire_ic = 0xFF;//???????��
+uint8_t root = 0xFF,ASGO = 0xFF;//???????????��
+uint8_t amend = 0xFF,again = 0xFF;//???????????��
+uint8_t hid = 0xFF;//??????��
+uint8_t ok = 0xFF;//???????��
+uint8_t sos = 0xFF; // ???????��
 
-uint8_t fail_count = 0;//������־λ
-uint8_t per = 0;//λ
+uint8_t fail_count = 0;//???????��
+uint8_t per = 0;//��
 
 extern uint32_t password;
 extern uint8_t matrix_num;
-extern uint8_t row;//��
+extern uint8_t row;//??
 extern uint8_t card_numberbuf0[5];
-uint32_t password_key;//��ʼ����
+uint32_t password_key;//???????
 
-uint8_t time_count = 15;//��������
+uint8_t time_count = 15;//????????
 
-//���ⲿ�����޸�������ʱ
+//??????????????????
 void wire_time_count(uint8_t count)
 {
 	time_count = count;
 }
-//���ⲿ���ô������
+//??????????????
 void add_fail_count(void)
 {
 	fail_count++;
 }
 
-//����ģ���ʼ��&���ݴ���
+//???????????&???????
 void HC_XR(void)
 {
 	Serial_Init();
-	//����ǣ��
+	//???????
 		if(Get_Serial_RxFlag())
 		{
 			switch(checkPack)
@@ -184,7 +184,7 @@ void HC_XR(void)
 					if(per!=0)
 					per = 0;
 				break;
-				//amend//�޸�����
+				//amend//???????
 				case 40:
 					time_count = 15;
 					matrix_num = 30;
@@ -193,7 +193,7 @@ void HC_XR(void)
 					per = 0;
 					amend = 1;
 				break;
-				//Back//����
+				//Back//????
 				case 50:
 					matrix_num = 40;
 					Delay_ms(400);
@@ -233,7 +233,7 @@ void HC_XR(void)
 			}
 		}
 }
-//��������
+//????????
 void View_Init(void)
 {
 		Matrix_Init();
@@ -242,16 +242,16 @@ void View_Init(void)
 		OLED_Clear();
 	while(matrix_num == 0xFE)
 	{
-		password_key = Store_Data[1]+ Store_Data[2]*65535;//���ڲ�flash��ȡ���룬ʵ�ֵ��粻��ʧ
-		Add_Init();//���ڲ�flash��ȡ���ţ�ʵ�ֵ��粻��ʧ
+		password_key = Store_Data[1]+ Store_Data[2]*65535;//?????flash????????????????
+		Add_Init();//?????flash?????????????????
 		Bee_Init();
-		kaisuo_OFF();//��ͷ�رգ���ֹ��
+		kaisuo_OFF();//????????????
 		TIM_Cmd(TIM2,DISABLE);
 		time_count = 15;
 		password_clear();
 		per = 0;
-		HC_XR();//����ǣ��
-		Matrix_row();//�������������ɨ��
+		HC_XR();//???????
+		Matrix_row();//????????????????
 		MyRTC_ReadTime();
 		OLED_ShowString(34,11,"    -  -  ",OLED_6X8);
 		OLED_ShowString(40,25,"  :  :  ",OLED_6X8);
@@ -264,19 +264,19 @@ void View_Init(void)
 		OLED_ShowNum(40+6*3+6*3,25, MyRTC_Time[5],2,OLED_6X8);
 		switch(MyRTC_Time[6])
 		{
-			case 0:	OLED_ShowChinese(40,40,"������");break;
-			case 1:	OLED_ShowChinese(40,40,"����һ");break;
-			case 2: OLED_ShowChinese(40,40,"���ڶ�");break;
-			case 3: OLED_ShowChinese(40,40,"������");break;
-			case 4: OLED_ShowChinese(40,40,"������");break;
-			case 5: OLED_ShowChinese(40,40,"������");break;
-			case 6: OLED_ShowChinese(40,40,"������");break;
-			default:OLED_ShowChinese(40,40,"������");break;
+			case 0:	OLED_ShowChinese(40,40,"??????");break;
+			case 1:	OLED_ShowChinese(40,40,"?????");break;
+			case 2: OLED_ShowChinese(40,40,"?????");break;
+			case 3: OLED_ShowChinese(40,40,"??????");break;
+			case 4: OLED_ShowChinese(40,40,"??????");break;
+			case 5: OLED_ShowChinese(40,40,"??????");break;
+			case 6: OLED_ShowChinese(40,40,"??????");break;
+			default:OLED_ShowChinese(40,40,"??????");break;
 		}
 		OLED_Update();
 	}
 }
-//��ҳ��
+//?????
 void View_First(void)
 {
 	OLED_Init();
@@ -288,7 +288,7 @@ void View_First(void)
 	{
 		
 		TIM_Cmd(TIM2,ENABLE);
-		//����ǣ��
+		//???????
 		if(Get_Serial_RxFlag())
 		{
 			switch(checkPack)
@@ -421,7 +421,7 @@ void View_First(void)
 					if(per!=0)
 					per = 0;
 				break;
-				//amend//�޸�����
+				//amend//???????
 //				case 40:
 //					time_count = 15;
 //					matrix_num = 30;
@@ -433,7 +433,7 @@ void View_First(void)
 //						amend = 1;
 //					}
 //				break;
-				//Back//����
+				//Back//????
 				case 50:
 					time_count = 15;
 					matrix_num = 40;
@@ -479,13 +479,13 @@ void View_First(void)
 				
 			}
 		}
-	//�û�ģʽ-------------------------
+	//?????-------------------------
 		if(root == 0xFF)
 		{
 			ASGO = 0xFF;
-			Matrix_row();//�������������ɨ��
-			MyRTC_ReadTime();//��ȡʱ��
-			//ʱ����ʾ
+			Matrix_row();//????????????????
+			MyRTC_ReadTime();//??????
+			//??????
 			OLED_ShowString(5,5,"    -  -  ",OLED_6X8);
 			OLED_ShowString(80,5,"  :  :  ",OLED_6X8);
 			OLED_ShowNum(5,5, MyRTC_Time[0],4,OLED_6X8);
@@ -494,7 +494,7 @@ void View_First(void)
 			OLED_ShowNum(80,5, MyRTC_Time[3],2,OLED_6X8);
 			OLED_ShowNum(80+6*3,5, MyRTC_Time[4],2,OLED_6X8);
 			OLED_ShowNum(80+6*3+6*3,5, MyRTC_Time[5],2,OLED_6X8);
-			//������ʾ
+			//???????
 			OLED_DrawRectangle( 21, 21, 85, 20, OLED_UNFILLED);
 			OLED_ShowNum(28, 23, password, 9, OLED_8X16);
 			if(hid == 0xFF)
@@ -522,7 +522,7 @@ void View_First(void)
 			}
 			else if(matrix_num == 50)
 			{
-				OLED_ShowChinese(33, 47,"���ڽ���");
+				OLED_ShowChinese(33, 47,"???????");
 				OLED_Update();
 				Delay_s(1);
 				
@@ -540,7 +540,7 @@ void View_First(void)
 					{
 						Bee_Init();
 						OLED_ClearArea(18, 47, 120, 16);
-						OLED_ShowChinese(33, 47,"�����ɹ�");
+						OLED_ShowChinese(33, 47,"???????");
 						fail_count = 0;
 						OLED_Update();
 						kaisuo_ON();
@@ -552,7 +552,7 @@ void View_First(void)
 				else if(ok==0)
 				{
 					OLED_ClearArea(18, 47, 120, 16);
-					OLED_ShowChinese(33, 47,"����ʧ��");
+					OLED_ShowChinese(33, 47,"???????");
 					matrix_num = 0xFF;
 					ok = 0xFF;
 					per = 0;
@@ -562,13 +562,13 @@ void View_First(void)
 					fail_count++;
 				}
 			}
-			//ic ��
+			//ic ??
 			if(RC522_lock()==1)
 			{
 				time_count = 15;
 				matrix_num = 0xFF;
 				OLED_ClearArea(18, 47, 120, 16);
-				OLED_ShowChinese(33, 47,"���ڽ���");
+				OLED_ShowChinese(33, 47,"???????");
 				OLED_Update();
 				Delay_s(1);
 				OLED_ClearArea(18, 47, 120, 16);
@@ -579,7 +579,7 @@ void View_First(void)
 				{
 					Bee_Init();
 					OLED_ClearArea(18, 47, 120, 16);
-					OLED_ShowChinese(33, 47,"�����ɹ�");
+					OLED_ShowChinese(33, 47,"???????");
 					OLED_Update();
 					kaisuo_ON();
 					Delay_s(3);
@@ -593,7 +593,7 @@ void View_First(void)
 				}	
 			}
 			
-			//��������
+			//????????
 			if(fail_count==10)
 			{
 				sos = 1;
@@ -606,10 +606,10 @@ void View_First(void)
 					Delay_ms(250);
 					Bee_OFF();
 					Delay_ms(250);
-					OLED_ShowChinese(15, 5,"���澯��");
+					OLED_ShowChinese(15, 5,"??????");
 					//Serial_printf("SOS SOS 110");
                     OLED_Update();
-					//����ǣ��
+					//???????
 					if(Get_Serial_RxFlag())
 					{
 						switch(checkPack)
@@ -629,17 +629,17 @@ void View_First(void)
 					
 				}
 			}
-			 else if(fail_count==7)//�������6��
+			 else if(fail_count==7)//???????6??
 			{
-				fail_count = 3;//���ü�������
+				fail_count = 3;//???��???????
 				while(fail_count--)
 				{
 					time_count = 15;
 					Delay_ms(1000);
 					OLED_Clear();
-					OLED_ShowChinese(15, 5,"��ʣ�����λ���");
+					OLED_ShowChinese(15, 5,"????????��???");
 					OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-					OLED_ShowChinese(45,25,"�������");
+					OLED_ShowChinese(45,25,"???????");
 					OLED_Update();
 				}
 				OLED_Clear();
@@ -647,17 +647,17 @@ void View_First(void)
 				fail_count = 8;
 				matrix_num = 0xFF;
 			}
-			else if(fail_count ==2)//�������2��
+			else if(fail_count ==2)//???????2??
 			{
-				fail_count = 2;//���ü�������
+				fail_count = 2;//???��???????
 				while(fail_count--)
 				{
 					time_count = 15;
 					Delay_ms(1000);
 					OLED_Clear();
-					OLED_ShowChinese(15, 5,"��ʣ�����λ���");
+					OLED_ShowChinese(15, 5,"????????��???");
 					OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-					OLED_ShowChinese(45,25,"�������");
+					OLED_ShowChinese(45,25,"???????");
 					OLED_Update();
 				}
 				OLED_Clear();
@@ -668,29 +668,29 @@ void View_First(void)
 		}
 		
 		
-//rootģʽ-----------------------------
+//root??-----------------------------
 
 		if(root == 1)
 		{
 			TIM_Cmd(TIM2,DISABLE);
 			time_count = 15;
 
-			// 检查指纹库是否为空，如果为空则跳过指纹验证
+			// ���ָ�ƿ��Ƿ�Ϊ�գ����Ϊ��������ָ����֤
 			u16 ValidN = 0;
 			usart1_Init();
 			PS_ValidTempleteNum(&ValidN);
 
-			// 如果没有录入指纹，显示提示并跳过验证
+			// ���û��¼��ָ�ƣ���ʾ��ʾ��������֤
 			if(ValidN == 0)
 			{
-				OLED_ShowChinese(15, 5,"请录入指纹");
-				OLED_ShowChinese(15, 25,"确认操作");
+				OLED_ShowChinese(15, 5,"��¼��ָ��");
+				OLED_ShowChinese(15, 25,"ȷ�ϲ���");
 				OLED_Update();
 				Delay_s(1);
-				ASGO = 0;  // 跳过指纹验证
+				ASGO = 0;  // ����ָ����֤
 			}
 
-			//ָ�ƽ���
+			//??????
 			while(ASGO == 0xFF)
 			{
 				if(Get_Serial_RxFlag())
@@ -707,14 +707,14 @@ void View_First(void)
 						break;
 					}
 				}
-				OLED_ShowChinese(15,5,"���ڼ��ָ�� ");
-				OLED_Update();//������ʾ	
+				OLED_ShowChinese(15,5,"????????? ");
+				OLED_Update();//???????	
 					if(press_FR() == 1)
 					{
 						time_count = 15;
 						matrix_num = 0xFF;
 						OLED_ClearArea(30, 47, 120, 16);
-						OLED_ShowChinese(33, 47,"���ڽ���");
+						OLED_ShowChinese(33, 47,"???????");
 						OLED_Update();
 						Delay_s(1);
 						OLED_ClearArea(30, 47, 120, 16);
@@ -722,7 +722,7 @@ void View_First(void)
 						OLED_Update();
 							Bee_Init();
 							OLED_ClearArea(30, 47, 120, 16);
-							OLED_ShowChinese(33, 47,"�����ɹ�");
+							OLED_ShowChinese(33, 47,"???????");
 							fail_count = 0;
 							OLED_Update();
 							matrix_num = 0xFF;
@@ -732,7 +732,7 @@ void View_First(void)
 							ASGO = 0;
 							OLED_Clear();
 					}
-					//��������
+					//????????
 					if(fail_count==8)
 					{
 						sos = 1;
@@ -745,21 +745,21 @@ void View_First(void)
 							Delay_ms(250);
 							Bee_OFF();
 							Delay_ms(250);
-							OLED_ShowChinese(15, 5,"���澯��");
+							OLED_ShowChinese(15, 5,"??????");
 							Serial_printf("SOS SOS 110");
 						}
 					}
 					 else if(fail_count==6)
 					{
-						fail_count = 30;//���ü�������
+						fail_count = 30;//???��???????
 						while(fail_count--)
 						{
 							time_count = 15;
 							Delay_ms(1000);
 							OLED_Clear();
-							OLED_ShowChinese(15, 5,"��ʣ��һ�λ���");
+							OLED_ShowChinese(15, 5,"???????��???");
 							OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-							OLED_ShowChinese(45,25,"�������");
+							OLED_ShowChinese(45,25,"???????");
 							OLED_Update();
 						}
 						OLED_Clear();
@@ -769,15 +769,15 @@ void View_First(void)
 					}
 					else if(fail_count ==2)
 					{
-						fail_count = 10;//���ü�������
+						fail_count = 10;//???��???????
 						while(fail_count--)
 						{
 							time_count = 15;
 							Delay_ms(1000);
 							OLED_Clear();
-							OLED_ShowChinese(15, 5,"��ʣ�����λ���");
+							OLED_ShowChinese(15, 5,"????????��???");
 							OLED_ShowNum(20,25,fail_count,2,OLED_8X16);
-							OLED_ShowChinese(45,25,"�������");
+							OLED_ShowChinese(45,25,"???????");
 							OLED_Update();
 						}
 						OLED_Clear();
@@ -787,15 +787,15 @@ void View_First(void)
 					}
 				}
 			
-			//ҳ����ʾ���ʼ��
-			Matrix_row();//�������������ɨ��
-			MyRTC_ReadTime();//��ȡʱ��
-			OLED_ShowChinese(35, 5,"һ������");
-			OLED_ShowChinese(35, 25,"¼��ָ��");
-			OLED_ShowChinese(35, 45,"���Ŀ���");
+			//????????????
+			Matrix_row();//????????????????
+			MyRTC_ReadTime();//??????
+			OLED_ShowChinese(35, 5,"???????");
+			OLED_ShowChinese(35, 25,"??????");
+			OLED_ShowChinese(35, 45,"???????");
 			OLED_DrawRectangle(5, 3, 120, 60, OLED_UNFILLED);
 			OLED_Update();
-		//����ǣ��----------------------------------
+		//???????----------------------------------
 					if(Get_Serial_RxFlag())
 					{
 						switch(checkPack)
@@ -809,7 +809,7 @@ void View_First(void)
 								OLED_Clear();
 								
 							break;
-							//¼��ָ��
+							//??????
 							case 20:
 								OLED_ReverseArea(35, 25,4*16, 16);
 								OLED_Update();
@@ -819,7 +819,7 @@ void View_First(void)
 								wire_as = 1;
 								
 							break;
-							//���Ŀ���
+							//???????
 							case 30:
 								OLED_ReverseArea(35, 45,4*16, 16);
 								OLED_Update();
@@ -828,7 +828,7 @@ void View_First(void)
 								OLED_Update();
 								wire_ic = 1;
 							break;
-							//һ������
+							//???????
 							case 60:
 								OLED_ReverseArea(35, 5,4*16, 16);
 								OLED_Update();
@@ -840,7 +840,7 @@ void View_First(void)
 								Delay_s(3);
 								kaisuo_OFF();
 							break;
-							//amend//�޸�����
+							//amend//???????
 							case 40:
 								time_count = 15;
 								matrix_num = 30;
@@ -857,7 +857,7 @@ void View_First(void)
 					}
             if(amend != 1)
             {
-            //¼��ָ��
+            //??????
                 while(wire_as == 1)
                 {
                      Add_FR();
@@ -865,20 +865,20 @@ void View_First(void)
         
             
             
-            //¼�뿨��
+            //?????
                 while(wire_ic == 1)
                 {
                     Add_Rfid();
                 }
             }	
-			//�޸�����
+			//???????
 			if(amend == 1)
 			{
 				OLED_Clear();
 				
 					while(1)
 					{
-							//����ǣ��
+							//???????
 						if(Get_Serial_RxFlag())
 						{
 							switch(checkPack)
@@ -1012,7 +1012,7 @@ void View_First(void)
 									if(per!=0)
 									per = 0;
 								break;
-								//Back//����
+								//Back//????
 								case 50:
 									time_count = 15;
 									matrix_num = 40;
@@ -1035,8 +1035,8 @@ void View_First(void)
 							}
 						}
 						
-						Matrix_row();//�������������ɨ��
-						MyRTC_ReadTime();//��ȡʱ��
+						Matrix_row();//????????????????
+						MyRTC_ReadTime();//??????
 						OLED_ShowString(5,5,"    -  -  ",OLED_6X8);
 						OLED_ShowString(80,5,"  :  :  ",OLED_6X8);
 						OLED_ShowNum(5,5, MyRTC_Time[0],4,OLED_6X8);
@@ -1049,19 +1049,19 @@ void View_First(void)
 						OLED_ShowNum(28, 23, password, 9, OLED_8X16);
 						OLED_ClearArea(28+per*8, 23, 8*(9-per), 16);
 						OLED_ClearArea(30, 47, 120, 16);
-						OLED_ShowChinese(20, 47,"ȷ��");
-						OLED_ShowChinese(72, 47,"�˳�");
+						OLED_ShowChinese(20, 47,"???");
+						OLED_ShowChinese(72, 47,"???");
 						OLED_Update();
 						if(matrix_num == 50)
 						{
-							OLED_ShowChinese(20, 47,"ȷ��");
-							OLED_ShowChinese(72, 47,"�˳�");
+							OLED_ShowChinese(20, 47,"???");
+							OLED_ShowChinese(72, 47,"???");
 							OLED_ReverseArea(20, 47,16*2,16);
 							OLED_Update();
 							Delay_ms(250);
-							password_key = password;//��������
+							password_key = password;//????????
 							OLED_ClearArea(20, 47, 120, 16);
-							OLED_ShowChinese(33, 47,"���óɹ�");
+							OLED_ShowChinese(33, 47,"???��??");
 							matrix_num = 0xFF;
 							amend = 0xFF;
 							password = 0;
@@ -1069,12 +1069,12 @@ void View_First(void)
 							OLED_Update();
 							Delay_s(1);
 							OLED_ClearArea(20, 47, 120, 16);
-							OLED_ShowChinese(33, 47,"�ٴ�����");
+							OLED_ShowChinese(33, 47,"???????");
 							OLED_Update();
 							Delay_ms(1000);
 							while(1)
 							{
-									//����ǣ��
+									//???????
 									if(Get_Serial_RxFlag())
 									{
 										switch(checkPack)
@@ -1207,7 +1207,7 @@ void View_First(void)
 												if(per!=0)
 												per = 0;
 											break;
-											//Back//����
+											//Back//????
 											case 50:
 												time_count = 15;
 												matrix_num = 40;
@@ -1232,12 +1232,12 @@ void View_First(void)
 									}
 								
 								OLED_ClearArea(30, 47, 120, 16);
-								OLED_ShowChinese(20, 47,"ȷ��");
-								OLED_ShowChinese(72, 47,"�˳�");
+								OLED_ShowChinese(20, 47,"???");
+								OLED_ShowChinese(72, 47,"???");
 								OLED_Update();
 								
-								Matrix_row();//�������������ɨ��
-								MyRTC_ReadTime();//��ȡʱ��
+								Matrix_row();//????????????????
+								MyRTC_ReadTime();//??????
 								OLED_ShowString(5,5,"    -  -  ",OLED_6X8);
 								OLED_ShowString(80,5,"  :  :  ",OLED_6X8);
 								OLED_ShowNum(5,5, MyRTC_Time[0],4,OLED_6X8);
@@ -1250,13 +1250,13 @@ void View_First(void)
 								OLED_ShowNum(28, 23, password, 9, OLED_8X16);
 								OLED_ClearArea(28+per*8, 23, 8*(9-per), 16);
 								OLED_ClearArea(30, 47, 120, 16);
-								OLED_ShowChinese(20, 47,"ȷ��");
-								OLED_ShowChinese(72, 47,"�˳�");
+								OLED_ShowChinese(20, 47,"???");
+								OLED_ShowChinese(72, 47,"???");
 								OLED_Update();
 								if(matrix_num == 50)
 								{
-									OLED_ShowChinese(20, 47,"ȷ��");
-									OLED_ShowChinese(72, 47,"�˳�");
+									OLED_ShowChinese(20, 47,"???");
+									OLED_ShowChinese(72, 47,"???");
 									OLED_ReverseArea(20, 47,16*2,16);
 									OLED_Update();
 									Delay_ms(250);
@@ -1272,10 +1272,10 @@ void View_First(void)
 									else
 									{
 										OLED_ClearArea(30, 47, 120, 16);
-										OLED_ShowChinese(20, 47,"���벻һ��");
+										OLED_ShowChinese(20, 47,"???????");
 										OLED_Update();
 										Delay_s(1);
-										OLED_ShowChinese(20, 47,"����ͷ����");
+										OLED_ShowChinese(20, 47,"?????????");
 										OLED_Update();
 										Delay_s(1);
 										password_key = Store_Data[2];
@@ -1290,8 +1290,8 @@ void View_First(void)
 								if(matrix_num == 40)
 								{
 									OLED_ClearArea(30, 47, 120, 16);
-									OLED_ShowChinese(20, 47,"ȷ��");
-									OLED_ShowChinese(72, 47,"�˳�");
+									OLED_ShowChinese(20, 47,"???");
+									OLED_ShowChinese(72, 47,"???");
 									OLED_ReverseArea(72, 47,16*2,16);
 									matrix_num = 0xFF;
 									password = 0;
@@ -1305,7 +1305,7 @@ void View_First(void)
 							if(again==1)
 							{
 								OLED_ClearArea(20, 47, 120, 16);
-								OLED_ShowChinese(33, 47,"���óɹ�");
+								OLED_ShowChinese(33, 47,"???��??");
 								OLED_Update();
 								Store_Data[2] = password_key/65535;
 								Store_Data[1] = password_key%65535;
@@ -1318,8 +1318,8 @@ void View_First(void)
 						if(matrix_num == 40)
 						{
 							OLED_ClearArea(30, 47, 120, 16);
-							OLED_ShowChinese(20, 47,"ȷ��");
-							OLED_ShowChinese(72, 47,"�˳�");
+							OLED_ShowChinese(20, 47,"???");
+							OLED_ShowChinese(72, 47,"???");
 							OLED_ReverseArea(72, 47,16*2,16);
 							matrix_num = 0xFF;
 							amend = 0xFF;
@@ -1351,7 +1351,7 @@ void View_First(void)
 
 
 
-void EXTI0_IRQHandler(void)//������
+void EXTI0_IRQHandler(void)//??????
 {
 	if(EXTI_GetITStatus(EXTI_Line0) == SET)
 	{ 
@@ -1400,7 +1400,7 @@ void EXTI0_IRQHandler(void)//������
 		
 		EXTI_ClearITPendingBit(EXTI_Line0);
 }
-void EXTI1_IRQHandler (void)//������
+void EXTI1_IRQHandler (void)//??????
 {
 	if(EXTI_GetITStatus(EXTI_Line1) == SET)
 	{ 
@@ -1452,7 +1452,7 @@ void EXTI1_IRQHandler (void)//������
 					ok = 0;
 				}
 			}
-				//һ������--------------------------------------
+				//???????--------------------------------------
 				if(root == 1)
 				{
 					if(amend != 1)
@@ -1590,7 +1590,7 @@ void EXTI3_IRQHandler (void)
 
 void TIM2_IRQHandler(void)
 {
-   if(TIM_GetITStatus(TIM2,TIM_IT_Update)==SET)// ��ȡ�Ƿ�TIM2������ж�
+   if(TIM_GetITStatus(TIM2,TIM_IT_Update)==SET)// ??????TIM2??????��?
    {
 	    time_count--;
 	    if(time_count==0)
@@ -1598,7 +1598,7 @@ void TIM2_IRQHandler(void)
 			time_count = 15;
 			matrix_num = 0xFE;
 		}
-		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);//Ӳ����1.�Լ���0
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);//?????1.?????0
    }
 	
 }
