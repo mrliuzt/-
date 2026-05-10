@@ -75,7 +75,7 @@ uint8_t FR_GET_NUM(void)
 		//¿∂—¿º√¥√”¥Û
 		extern uint8_t matrix_num;
 		extern uint8_t per;
-		if(matrix_num <= 9 && per > 0)
+		if(matrix_num <= 9)
 		{
 			FR_num = matrix_num;
 			matrix_num = 0xFF;
